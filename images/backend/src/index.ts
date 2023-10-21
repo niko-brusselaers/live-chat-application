@@ -113,6 +113,14 @@ io.on('connection', (socket) => {
         
     })
 
+    // socket to get all messages from current user
+    socket.on('getMessages', (data) => {
+        // find all chatrooms where current user is a member
+        let userChatrooms = chatrooms.filter(chatroom => chatroom.users.includes(data.username));
+        // return all chatrooms to user
+        socket.emit('getMessages', userChatrooms);
+    })
+
 });
 
 
