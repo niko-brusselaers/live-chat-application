@@ -92,7 +92,26 @@ io.on('connection', (socket) => {
         }        
     });
 
-    
+    // socket to remove user when discconected
+    socket.on('disconnect', () => {
+        // remove user from users array
+        let user = users.find(user => user.id === socket.id);
+        users.splice(users.findIndex(user => user.id === socket.id), 1);
+        //find all chatrooms where disconnected user is a member
+        let chatroomsToRemove = chatrooms.filter(chatroom => chatroom.users.includes(user?.username as string));
+        // remove user from chatrooms
+        chatroomsToRemove.forEach(chatroom => {
+            chatroom.users.splice(chatroom.users.findIndex(username => username === user?.username), 1);
+            //if chatroom only has 1 user left, remove chatroom
+            if (chatroom.users.length === 1) {
+                chatrooms.splice(chatrooms.findIndex(chatroom => chatroom.id === chatroom.id), 1);
+            }
+            //broadcoast to other user of chatroom that user has disconnected
+            socket.broadcast.to(findIdByName(chatroom.users)).emit('disconnected', user?.username);
+        });
+
+        
+    })
 
 });
 
