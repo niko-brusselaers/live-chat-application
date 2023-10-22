@@ -1,4 +1,5 @@
 import { IMessage } from "../../shared/interfaces/message";
+import styles from "./css/message.module.css";
 
 function Message({message}:{message:IMessage}) {
     const currentUser = 'John';
@@ -6,20 +7,24 @@ function Message({message}:{message:IMessage}) {
 
     return ( 
         (message.Sender === currentUser) ?
-        <div className="w-75 align-self-end bg-info">
-            <p className="w-100 h-25  text-white text-center">
-                {message.Sender}
-            </p>
-            <p className="w-100 h-25  text-white text-center">
+        <div className={styles.messageCurrentSender}>
+            <div>
+                <p>{message.Sender}</p>
+                <p>{message.Time}</p>
+            </div>
+            <p className={styles.messageContent}>
                 {message.Content}
             </p>
         </div>
         :
-        <div className="w-75 align-self-start bg-secondary">
-            <p className="w-100 h-25  text-white text-center">
-                {message.Sender}
-            </p>
-            <p className="w-100 h-25  text-white text-center">
+        <div className={styles.message}>
+            <div>
+                <p>
+                    {message.Sender}
+                </p>
+                <p>{message.Time}</p>
+            </div>
+            <p className={styles.messageContent}>
                 {message.Content}
             </p>
         </div>

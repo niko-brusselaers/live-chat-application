@@ -1,7 +1,7 @@
 import style from "./css/SideNav.module.css";
 import { ISideNavChats } from "../../shared/interfaces/sideNavChats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGear,faRotateRight,faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { faGear,faRotateRight,faRightFromBracket, faPlus } from "@fortawesome/free-solid-svg-icons";
 
 
 function SideNav({userChats}:{userChats:ISideNavChats[]}) {
@@ -14,6 +14,7 @@ function SideNav({userChats}:{userChats:ISideNavChats[]}) {
             </div>
             <div className={style.sideNavButtonsContainer}>
                 <button className={style.sideNavButton}><FontAwesomeIcon icon={faRotateRight} /></button>
+                <button className={style.sideNavButton}><FontAwesomeIcon icon={faPlus} /></button>
                 <button className={style.sideNavButton}><FontAwesomeIcon icon={faGear} /></button>
                 <button className={style.sideNavButton}><FontAwesomeIcon icon={faRightFromBracket} /></button>
             </div>

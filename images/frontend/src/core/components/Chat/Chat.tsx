@@ -1,4 +1,5 @@
 import { IMessage } from "../../shared/interfaces/message";
+import styles from "./css/Chat.module.css";
 import ChatForm from "./ChatForm";
 import Message from "./Message";
 
@@ -100,14 +101,53 @@ const messages: IMessage[] = [
     Content: 'Goodbye, Emily!',
     Time: '2023-10-09 11:05:00',
     Read: false,
+  },{
+    Sender: 'Emily',
+    Receiver: 'John',
+    Content: 'Goodbye!',
+    Time: '2023-10-09 11:00:00',
+    Read: false,
+  },
+  {
+    Sender: 'John',
+    Receiver: 'Emily',
+    Content: 'Goodbye, Emily!',
+    Time: '2023-10-09 11:05:00',
+    Read: false,
+  },{
+    Sender: 'Emily',
+    Receiver: 'John',
+    Content: 'Goodbye!',
+    Time: '2023-10-09 11:00:00',
+    Read: false,
+  },
+  {
+    Sender: 'John',
+    Receiver: 'Emily',
+    Content: 'Goodbye, Emily!',
+    Time: '2023-10-09 11:05:00',
+    Read: false,
+  },{
+    Sender: 'Emily',
+    Receiver: 'John',
+    Content: 'Goodbye!',
+    Time: '2023-10-09 11:00:00',
+    Read: false,
+  },
+  {
+    Sender: 'John',
+    Receiver: 'Emily',
+    Content: 'Goodbye, Emily!',
+    Time: '2023-10-09 11:05:00',
+    Read: false,
   },
 ];
 
 function Chat() {
     
     return ( 
-        <div className="w-100 vh-100 p-5">
-            <div className="bg-light h-75 w-100 overflow-scroll d-flex flex-column">
+        <div className={styles.chatContainer}>
+            <div className={styles.chatBox}>
                 {(messages.map((message,index)=> <Message message={message}  key={index}/>))}
             </div>
             <ChatForm/>

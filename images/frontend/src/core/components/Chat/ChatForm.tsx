@@ -1,11 +1,12 @@
-import { Button, Form } from "react-bootstrap";
+import styles from "./css/chatForm.module.css";
+
 
 function ChatForm() {
     return ( 
-        <Form className="pt-5 d-flex flex-row" >
-            <Form.Control type="text" placeholder="Type a message" />
-            <Button type="submit">Submit</Button>
-        </Form>
+        <form className={styles.chatForm} >
+            <input type="text" placeholder="Type a message" />
+            <button type="submit">Submit</button>
+        </form>
      );
 }
 

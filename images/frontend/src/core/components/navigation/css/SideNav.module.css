@@ -60,4 +60,9 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    border: none;
+}
+
+.sideNavButton:hover{
+    background-color: #414449;
 }

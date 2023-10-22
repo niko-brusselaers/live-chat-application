@@ -1,0 +1,24 @@
+.chatForm{
+    width: 100%;
+    height: 5vh;
+    display: flex;
+    align-items: center;
+}
+
+.chatForm input{
+    width: 90%;
+    height: 2em;
+    background-color: rgba(95, 91, 91, 1);
+    border: none;
+    border-radius: 10px 0 0 10px;
+    color: white;
+}
+
+.chatForm button{
+    width: 10%;
+    height: 2em;
+    background-color: rgba(95, 91, 91, 0.5);
+    color: white;
+    border-radius: 0 10px 10px 0;
+    border: none;
+}
