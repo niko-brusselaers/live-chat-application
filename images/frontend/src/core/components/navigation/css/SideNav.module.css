@@ -1,0 +1,63 @@
+.sideNavContainer{
+    width: 15vw;
+    height: 100vh;
+}
+
+.chatsContainer{
+    width: 100%;
+    height: 90vh;
+    padding-top: 2em;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.chatsContainer a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .75em 0;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+    color: white;
+
+}
+
+.chatsContainer a:hover{
+    background-color: #2f3136;
+}
+
+.chatsContainer a.active{
+    background-color: #414449;
+}
+
+.chatsContainer span{
+    margin-left: 1em;
+    padding: .25em;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+    
+
+.sideNavButtonsContainer{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.sideNavButton{
+    width: 4em;
+    height: 4em;
+    border-radius: 10px;
+    background-color: #2f3136;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
