@@ -4,69 +4,18 @@ import SideNav from './core/components/navigation/SideNav';
 import { ISideNavChats } from './core/shared/interfaces/sideNavChats';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Chat from './core/components/Chat/Chat';
+import LoginModal from './core/components/loginModal/LoginModal';
+import {  io } from 'socket.io-client';
 
-const userChats: ISideNavChats[] = [
-  {
-    user: 'John',
-    newMessages: 2,
-  },
-  {
-    user: 'Jane',
-    newMessages: 0,
-  },
-  {
-    user: 'Bob',
-    newMessages: 0,
-  },
-  {
-  user: 'Emily',
-  newMessages: 0,
-  },
-
-  {
-  user: 'Michael',
-  newMessages: 5,
-  },
-
-  {
-  user: 'Sarah',
-  newMessages: 1,
-  },
-
-  {
-  user: 'David',
-  newMessages: 3,
-  },
-
-  {
-  user: 'Sophia',
-  newMessages: 0,
-  },
-
-  {
-  user: 'Daniel',
-  newMessages: 2,
-  },
-
-  {
-  user: 'Olivia',
-  newMessages: 4,
-  },
-
-  {
-  user: 'William',
-  newMessages: 1,
-  },
-
-  {
-  user: 'Ava',
-  newMessages: 0,
-  },
-];
+const userChats: ISideNavChats[] = [];
 
 function App() {
+  const [userName, setUserName] = React.useState<string|undefined>(undefined);
+  const socket = io(process.env.REACT_APP_BACKEND_URL as string);
+
   return (
     <div className="vw-100 vh-100 bg-dark d-flex flex-row" >
+      {userName? null : <LoginModal setUsername={setUserName} socket={socket}/>}
       <SideNav userChats={userChats} />
       <Chat/>
     </div>

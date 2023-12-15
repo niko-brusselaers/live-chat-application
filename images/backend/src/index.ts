@@ -4,11 +4,17 @@ import { Server, Socket } from 'socket.io';
 import { IUser } from '../shared/models/user';
 import { IChatroom } from '../shared/models/chatroom';
 import { IMessage } from '../shared/models/message';
+import cors from 'cors';
 
 const app = express();
 const server = http.createServer(app);
 const Port = process.env.PORT || 3000;
-const io = new Server(server)
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 const users:IUser[] = [];
 const chatrooms:IChatroom[] = [];
