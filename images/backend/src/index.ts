@@ -8,7 +8,7 @@ import cors from 'cors';
 
 const app = express();
 const server = http.createServer(app);
-const Port = process.env.PORT || 3000;
+const Port = process.env.PORT || 4000;
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -19,22 +19,19 @@ const io = new Server(server, {
 const users:IUser[] = [];
 const chatrooms:IChatroom[] = [];
 let newChatroomID = 0;
-let newMessageID = 0;
 
 
-server.listen(3000, () => {
+server.listen(Port, () => {
     console.log(`listening on http://localhost:${Port}`);
 });
 
 io.on('connection', (socket) => {    
     // socket to make new user
 
-    socket.on('login', (data) => {
+    socket.on('login', (data) => {        
         // check if user already exists
-        if (users.find(user => user.username === data.newUser) === undefined 
-            && users.find(user => user.id === socket.id) === undefined) 
+        if (users.find(user => user.username === data.newUser) === undefined ) 
         {
-            console.log("new user added");            
             // add new user to users array
             users.push(
                 {
@@ -61,36 +58,36 @@ io.on('connection', (socket) => {
 
         }
         
-
     })
 
     
 
     // socket to send message to other users
     socket.on('message', (data) => {
-        try {
-            
+        try {            
         // get chatroom if one exists
         let chatroom = chatrooms.find(chatroom => chatroom.id === data.chatroomID);
         
         if (!chatroom) {
-            // create new chatroom if it doesn't exist
-            chatroom = createNewChatroom(data.chatroomName, [data.sender, ...data.receiver]);
-        }
-        // add message to chatroom
-        chatroom.messages.push(
-            {
-                id: newMessageID,
-                sender: data.sender,
-                message: data.message
-            }
-        )
-        newMessageID++;
 
+            // create new chatroom if it doesn't exist
+            chatroom = createNewChatroom( [data.sender, ...data.receiver]);
+            // send new chatroom to client users            
+            let userIds = findIdByName(chatroom.users);
+            socket.broadcast.to(userIds).emit('newChatroom', chatroom);
+            
+
+        } else{
+            // send response to client
+            socket.broadcast.to(findIdByName(chatroom.users)).emit('message', {
+                chatroomID: data.chatroomID,
+                sender: data.sender,
+                message: data.message,
+                timestamp: data.timestamp
+            });
         
-        // send response to client
-        socket.broadcast.to(findIdByName(chatroom.users)).emit('message', chatroom);
-        
+        }
+
 
         } catch (error) {
             //catch error
@@ -131,13 +128,11 @@ io.on('connection', (socket) => {
 
 
 
-function createNewChatroom(name:string, users:string[]):IChatroom{
+function createNewChatroom( users:string[]):IChatroom{
     // create new chatroom and save to chatrooms array
     let newChatroom = {
         id: newChatroomID,
-        name: name,
         users: users,
-        messages: []
     }
     chatrooms.push(newChatroom);
     newChatroomID++;
@@ -146,9 +141,11 @@ function createNewChatroom(name:string, users:string[]):IChatroom{
 }
 
 function findIdByName(usernames: string[]): string[] {
-    // find id of user by username
-    let ids = usernames.map((username: string) => (users.find(user => user.username === username)?.id ).toString());
+    // find id of user by username    
+    let ids = usernames.map((username: string) => {
+        const user = users.find(user => user.username === username);
+        return user?.id?.toString() ?? '';
+    });    
     return ids;
 }
-
 

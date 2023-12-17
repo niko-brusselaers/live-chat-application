@@ -12,9 +12,9 @@ function LoginModal({setUsername, socket}:{setUsername:Function, socket:Socket})
         
         
         if(tempUsername){
-            socket.emit('login', tempUsername);
+            socket.emit('login', {newUser:tempUsername});
             socket.on('login', (data:{data:string,statuscode:number,userId:string | undefined})=>{
-                if(data.statuscode === 200)setUsername(data.userId);
+                if(data.statuscode === 200)setUsername(tempUsername);
                 else setErrorMessage(data.data);
             })
         }
