@@ -1,19 +1,24 @@
 import style from "./css/SideNav.module.css";
-import { ISideNavChats } from "../../shared/interfaces/sideNavChats";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear,faRotateRight,faRightFromBracket, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { IChatroom } from "../../shared/interfaces/IChatroom";
 
 
-function SideNav({chatrooms, createChatroom}:{chatrooms:IChatroom[], createChatroom:Function}) {
+function SideNav({chatrooms, createChatroom, changeFocusedChat}:{chatrooms:IChatroom[], createChatroom:Function, changeFocusedChat:Function}) {
+
+    function handleClick(id:number){
+        changeFocusedChat(id);
+    }
+
+
     return (  
         <div className={style.sideNavContainer} >
             <div className={style.chatsContainer}>
             {chatrooms ? (chatrooms.map((chatroom, index) => 
-            <a  href="#" key={index}>{chatroom.users.map((user, index) => {
+            <button  onClick={() => {handleClick(chatroom.id)}} key={index}>{chatroom.users.map((user, index) => {
                 if(index === chatroom.users.length-1) return user 
                 else return user+', '})} {(chatroom.newMessages ? <span>{chatroom.newMessages}</span>: <></>)}
-            </a> )) : null}
+            </button> )) : null}
             </div>
             <div className={style.sideNavButtonsContainer}>
                 <button className={style.sideNavButton}><FontAwesomeIcon icon={faRotateRight} /></button>

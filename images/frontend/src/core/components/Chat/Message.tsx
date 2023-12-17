@@ -1,31 +1,30 @@
-import { IMessage } from "../../shared/interfaces/message";
+import { IMessage } from "../../shared/interfaces/IMessage";
 import styles from "./css/message.module.css";
 
-function Message({message}:{message:IMessage}) {
-    const currentUser = 'John';
+function Message({message, currentUser}:{message:IMessage, currentUser:string}) {
     
 
     return ( 
-        (message.Sender === currentUser) ?
+        (message.sender === currentUser) ?
         <div className={styles.messageCurrentSender}>
             <div>
-                <p>{message.Sender}</p>
-                <p>{message.Time}</p>
+                <p>{message.sender}</p>
+                <p>{message.timestamp.toString()}</p>
             </div>
             <p className={styles.messageContent}>
-                {message.Content}
+                {message.message}
             </p>
         </div>
         :
         <div className={styles.message}>
             <div>
                 <p>
-                    {message.Sender}
+                    {message.sender}
                 </p>
-                <p>{message.Time}</p>
+                <p>{message.timestamp.toString()}</p>
             </div>
             <p className={styles.messageContent}>
-                {message.Content}
+                {message.message}
             </p>
         </div>
     );

@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './CreateChatroomModal.module.css';
 import { Socket } from 'socket.io-client';
-import { IMessage } from '../../shared/interfaces/IMessage';
 
 function CreateChatRoomModal({createChatroomModal,socket,username}: {createChatroomModal:Function, socket:Socket,username:string}) {
     const [inputs, setInputs] = useState<string[]>([""]);

@@ -1,6 +1,6 @@
 import express from 'express';
 import http from 'http';
-import { Server, Socket } from 'socket.io';
+import { Server } from 'socket.io';
 import { IUser } from '../shared/models/user';
 import { IChatroom } from '../shared/models/chatroom';
 import { IMessage } from '../shared/models/message';
@@ -63,10 +63,12 @@ io.on('connection', (socket) => {
     
 
     // socket to send message to other users
-    socket.on('message', (data) => {
+    socket.on('message', async(data) => {
         try {            
+            console.log(data);
+            
         // get chatroom if one exists
-        let chatroom = chatrooms.find(chatroom => chatroom.id === data.chatroomID);
+        let chatroom = await chatrooms.find(chatroom => chatroom.id === data.chatroomID);
         
         if (!chatroom) {
 
@@ -77,9 +79,10 @@ io.on('connection', (socket) => {
             socket.broadcast.to(userIds).emit('newChatroom', chatroom);
             
 
-        } else{
+        } else {
+            let userIds = findIdByName(chatroom.users);
             // send response to client
-            socket.broadcast.to(findIdByName(chatroom.users)).emit('message', {
+            socket.broadcast.to(userIds).emit('message', {
                 chatroomID: data.chatroomID,
                 sender: data.sender,
                 message: data.message,
@@ -87,7 +90,6 @@ io.on('connection', (socket) => {
             });
         
         }
-
 
         } catch (error) {
             //catch error

@@ -1,17 +1,19 @@
-import { IMessage } from "../../shared/interfaces/message";
 import styles from "./css/Chat.module.css";
 import ChatForm from "./ChatForm";
 import Message from "./Message";
+import { IChatroom } from "../../shared/interfaces/IChatroom";
+import { IMessage } from "../../shared/interfaces/IMessage";
+import { Socket } from "socket.io-client";
 
-const messages: IMessage[] = [];
+function Chat({chatroom, username, socket}:{chatroom:IChatroom, username:string, socket:Socket}) {
 
-function Chat() {
+
     return ( 
         <div className={styles.chatContainer}>
             <div className={styles.chatBox}>
-                {(messages.map((message,index)=> <Message message={message}  key={index}/>))}
+                {chatroom.messages.map((message:IMessage,index:number)=> <Message key={index} message={message} currentUser={username}/>)}
             </div>
-            <ChatForm/>
+            <ChatForm username={username} chatroomId={chatroom.id} socket={socket} />
         </div>
      );
 }
