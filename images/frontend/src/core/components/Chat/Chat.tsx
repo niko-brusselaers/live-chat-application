@@ -4,8 +4,14 @@ import Message from "./Message";
 import { IChatroom } from "../../shared/interfaces/IChatroom";
 import { IMessage } from "../../shared/interfaces/IMessage";
 import { Socket } from "socket.io-client";
+import { useEffect, useState } from "react";
 
 function Chat({chatroom, username, socket}:{chatroom:IChatroom, username:string, socket:Socket}) {
+    const [messages, setMessages] = useState<IMessage[]>([]);
+
+    useEffect(() => {
+        setMessages(chatroom.messages);
+    }, [chatroom, messages, setMessages]);
 
 
     return ( 

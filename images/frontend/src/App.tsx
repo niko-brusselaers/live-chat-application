@@ -17,15 +17,17 @@ function App() {
   const [focusedChat, setFocusedChat] = useState<IChatroom| undefined>(undefined);
 
   useEffect(() => {
-      socket.on("newChatroom", (data: IChatroom) => {
-        if (!chatrooms.find(chatroom => chatroom.id === data.id)) {
-            data.newMessages = 1;
-            data.messages = [];
-            setChatrooms(prevChatrooms => [...prevChatrooms, data]);
-        }
-    });
+      socket.on("newChatroom", (data:IChatroom)=>{
+        if(!chatrooms.find(chatroom => chatroom.id === data.id)){
+          data.newMessages = 1;
+          data.messages = [];
+          setChatrooms([...chatrooms, data]);
+        }        
+      })
 
     socket.on("message", (data: { chatroomID: number, message: string, sender: string, timestamp: Date }) => {
+      console.log(data);
+      
         setChatrooms(prevChatrooms => {
             const updatedChatrooms = prevChatrooms.map(chatroom => {
                 if (chatroom.id === data.chatroomID) {
@@ -50,7 +52,8 @@ function App() {
         });
     });
 
-  }, [socket, chatrooms, focusedChat, focusedChatId])
+}, [socket, chatrooms, focusedChat, focusedChatId, setFocusedChat, setFocusedChatId]);
+
 
   function changeFocusedChat(id:number){
     setFocusedChatId(id);
